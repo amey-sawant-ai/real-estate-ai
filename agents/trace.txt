@@ -1,0 +1,34 @@
+Traceback (most recent call last):
+Starting pipeline with 5 API keys available
+[LLMManager] Using groq key index: 0
+[LLMManager] Using groq key index: 0
+[LLMManager] Using groq key index: 0
+[LLMManager] Rate limit on groq key 0, rotating...
+[LLMManager] Using groq key index: 1
+[LLMManager] Using groq key index: 1
+[LLMManager] Using groq key index: 1
+[LLMManager] Rate limit on groq key 1, rotating...
+[LLMManager] Using groq key index: 2
+[LLMManager] Rate limit on groq key 2, rotating...
+[LLMManager] Using cerebras key index: 0
+  File "C:\Users\AmeySawant\real-estate\agents\test_direct.py", line 8, in <module>
+    analyze_sequence(payload)
+  File "C:\Users\AmeySawant\real-estate\agents\main.py", line 212, in analyze_sequence
+    market_output = analyze_market_logic(q, b, r, context=market_context)
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AmeySawant\real-estate\agents\agents\market.py", line 31, in analyze_market_logic
+    return groq_manager.safe_call(
+           ^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AmeySawant\real-estate\agents\utils\groq_client.py", line 81, in safe_call
+    raise e
+  File "C:\Users\AmeySawant\real-estate\agents\utils\groq_client.py", line 65, in safe_call
+    completion = client.chat.completions.create(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AmeySawant\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\cerebras\cloud\sdk\resources\chat\completions.py", line 209, in create
+    self._post(
+  File "C:\Users\AmeySawant\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\cerebras\cloud\sdk\_base_client.py", line 1243, in post
+    return cast(ResponseT, self.request(cast_to, opts, stream=stream, stream_cls=stream_cls))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\AmeySawant\AppData\Local\Packages\PythonSoftwareFoundation.Python.3.12_qbz5n2kfra8p0\LocalCache\local-packages\Python312\site-packages\cerebras\cloud\sdk\_base_client.py", line 1045, in request
+    raise self._make_status_error_from_response(err.response) from None
+cerebras.cloud.sdk.NotFoundError: Error code: 404 - {'message': 'Model qwen-3-235b-a22b-instruct-2507 does not exist or you do not have access to it.', 'type': 'not_found_error', 'param': 'model', 'code': 'model_not_found'}

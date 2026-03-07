@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "skills": {
+    "Agent Browser": {
+      "source": "am-will/codex-skills",
+      "sourceType": "github",
+      "computedHash": "ee1680b5806ac1f62e79d1fccfefb5bef1200db650bac8cb17456aa301f04eed"
+    },
+    "agent-tools": {
+      "source": "tul-sh/skills",
+      "sourceType": "github",
+      "computedHash": "15d2ee25e4cd620e88227699d2c85a9ca873beaf4087db5efe0a44122e2e7c3b"
+    },
+    "ai-agents-architect": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "computedHash": "49c27f6df787c140fbdc6f11da6d577b32f0bfe38b57a679ff6c060acdd6db90"
+    },
+    "dataverse-python-production-code": {
+      "source": "github/awesome-copilot",
+      "sourceType": "github",
+      "computedHash": "7299422fdb42dcede45a761921656a6450c476388731288a6e5afb0303f1d25d"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "25872a21881a950edc3db1f3329664d60405d539660ce05b3265db2de06a7dfd"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "516bd2154eb843a8240e43d5b285229129853114ad7075a5e141e1c08e408c84"
+    },
+    "senior-fullstack": {
+      "source": "sickn33/antigravity-awesome-skills",
+      "sourceType": "github",
+      "computedHash": "ae5b8441fff529f9623d723252ca4578ec4f8ab978ff987b9f9d26c7f3daa19c"
+    }
+  }
+}
