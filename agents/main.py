@@ -202,6 +202,38 @@ def analyze_sequence(payload: LocationQuery):
         real_data_context += f"""
 - Country: {full_name}"""
 
+    # NHB RESIDEX Price Index
+    residex = raw_data.get("residex", {})
+    print("RESIDEX DATA:", residex)
+    if isinstance(residex, dict) and "error" not in residex:
+        city = residex.get("city", "N/A")
+        price_range = residex.get("price_range_inr_per_sqft", {})
+        avg_price = price_range.get("average", "N/A")
+        appreciation = residex.get("annual_appreciation_pct", "N/A")
+        real_data_context += f"""
+- NHB RESIDEX: {city} avg {avg_price} INR/sqft, {appreciation}% annual appreciation"""
+
+    # Property Listings Market Data
+    listings = raw_data.get("property_listings", {})
+    print("LISTINGS DATA:", listings)
+    if isinstance(listings, dict) and "error" not in listings:
+        listings_found = listings.get("listings_found", 0)
+        avg_listing_price = listings.get("average_price_per_sqft", "N/A")
+        if listings_found > 0:
+            real_data_context += f"""
+- Live Market: {listings_found} listings found, avg {avg_listing_price} INR/sqft"""
+        else:
+            real_data_context += f"""
+- Live Market: No current listings found"""
+
+    # RERA Registered Projects
+    rera_data = raw_data.get("rera_data", {})
+    print("RERA DATA:", rera_data)
+    if isinstance(rera_data, dict) and rera_data.get("data_available"):
+        total_p = rera_data.get("total_projects_found", 0)
+        real_data_context += f"""
+- RERA Registered Projects: {total_p} projects found in this locality"""
+
     # Step 1: Location Intelligence
     location_output = analyze_location_logic(q, b, r, context=real_data_context)
     loc_summary = summarize_output(location_output)
@@ -378,6 +410,25 @@ from data.restcountries import fetch_country_legal_data
 @app.get("/data/countries")
 def get_country_legal_data(country: str):
     return fetch_country_legal_data(country)
+
+from data.nhb_residex import fetch_residex_data
+from data.property_listings import fetch_property_listings
+
+@app.get("/data/residex")
+def get_residex_data(city: str):
+    """Fetch NHB RESIDEX property price index for a city."""
+    return fetch_residex_data(city)
+
+@app.get("/data/listings")
+def get_property_listings_data(location: str, budget: str = None):
+    """Fetch current property listings from 99acres.com."""
+    return fetch_property_listings(location, budget)
+
+@app.get("/data/rera")
+def get_rera_data_endpoint(location: str):
+    """Fetch RERA registered project data for a location."""
+    from data.rera_price_lookup import fetch_rera_project_data
+    return fetch_rera_project_data(location)
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)

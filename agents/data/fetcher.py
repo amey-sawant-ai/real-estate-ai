@@ -2,8 +2,11 @@ from data.worldbank import fetch_worldbank_data
 from data.wikipedia import fetch_wikipedia_data
 from data.openstreetmap import fetch_osm_data
 from data.numbeo import fetch_numbeo_data
+from data.nhb_residex import fetch_residex_data
+from data.property_listings import fetch_property_listings
+from data.rera_price_lookup import fetch_rera_project_data
 
-def fetch_all_data(query: str, location: str, country: str) -> dict:
+def fetch_all_data(query: str, location: str, country: str, budget: str = None) -> dict:
     # 1. World Bank Data
     try:
         # Pass the country name to worldbank
@@ -80,6 +83,26 @@ def fetch_all_data(query: str, location: str, country: str) -> dict:
     except Exception as e:
         country_info = {"error": f"REST Countries internal error: {str(e)}"}
 
+    # 9. NHB RESIDEX Property Price Index
+    try:
+        from data.nhb_residex import fetch_residex_data
+        residex_data = fetch_residex_data(location)
+    except Exception as e:
+        residex_data = {"error": f"NHB RESIDEX internal error: {str(e)}"}
+
+    # 10. Property Listings (99acres)
+    try:
+        from data.property_listings import fetch_property_listings
+        listings_data = fetch_property_listings(location, budget)
+    except Exception as e:
+        listings_data = {"error": f"Property Listings internal error: {str(e)}"}
+
+    # 11. RERA Registered Projects
+    try:
+        rera_data = fetch_rera_project_data(location)
+    except Exception as e:
+        rera_data = {"error": f"RERA internal error: {str(e)}"}
+
     # Combine results
     return {
         "location": location,
@@ -91,5 +114,8 @@ def fetch_all_data(query: str, location: str, country: str) -> dict:
         "climate": climate_data,
         "forex": forex_data,
         "news": news_data,
-        "country_data": country_info
+        "country_data": country_info,
+        "residex": residex_data,
+        "property_listings": listings_data,
+        "rera_data": rera_data
     }
